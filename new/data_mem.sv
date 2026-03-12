@@ -2,7 +2,6 @@
 
 module data_mem(
     input        clk,
-    input        rst,
     input        dwe,
     input   logic [2:0]  i_funct3,
     input   logic [31:0] daddr,
@@ -59,10 +58,9 @@ module data_mem(
             if(byte_we[3])dmem[daddr[6:2]][31:24] <= copy_data[31:24]; 
 
         
-        
     end 
 
-    //IL-type (+zero_extend)
+    //I-type (+zero_extend)
     logic [7:0] byte_data;
     logic [15:0] half_data;
  

@@ -135,7 +135,7 @@ module control_unit(
                 jal_srcsel  = 1'b0;
                 alu_src     = 1'b0;
                 alu_control = 4'b0000;
-                rfwd_src    =3'b011;  //mux 5x1 --> 3bit 
+                rfwd_src    =3'b010;  //mux 5x1 --> 3bit 
                 o_funct3    = 3'b000;
                 dwe         = 1'b0;
                 
@@ -147,7 +147,7 @@ module control_unit(
                 jal_srcsel  = 1'b0;
                 alu_src     = 1'b0;
                 alu_control = 4'b0000;
-                rfwd_src    = 3'b010;
+                rfwd_src    = 3'b011;
                 o_funct3    = 3'b000;
                 dwe         = 1'b0;
 

@@ -7,7 +7,7 @@ module rv32i_datapath(
         input   logic           rst,
         input   logic           rf_we,
         input                   alu_src,
-        input   logic  [ 3:0]   alu_control,
+        input   logic  [3:0]   alu_control,
         input   logic  [31:0]   instr_data,
         input          [31:0]   drdata,
         input          [2:0]    rfwd_src,
@@ -22,7 +22,7 @@ module rv32i_datapath(
     );
 
     logic [31:0] rd1, rd2,alu_result,imm_data, alurs2_data, pc_imm_out, pc_4_out;
-    logic [31:0] rfwd_data, o_rs1_pc;
+    logic [31:0] rfwd_data;
     logic btaken;
 
     assign daddr = alu_result;
@@ -85,8 +85,8 @@ module rv32i_datapath(
     .in0(alu_result), //sel 0
     .in1(drdata), //sel 1
     .in2(imm_data), //010  //LUI
-    .in3(pc_imm_out), //011    //AUIPC pc + IMM
-    .in4(pc_4_out), //100    //Pc+4  //JAL/ JARl
+    .in3(pc_imm_out), //011    //AUIPC pc + IMM  //auipc
+    .in4(pc_4_out), //100    //Pc+4  //JAL/ JARl //j-type
     .mux_sel(rfwd_src), 
     .o_mux_5x1(rfwd_data)
 );
@@ -171,9 +171,9 @@ module imm_extender (
                 `JAL_TYPE:begin
                     imm_data = {
                         {12{instr_data[31]}},
-                        instr_data[20],     //1bit  
                         instr_data[19:12], // 8bit     
-                        instr_data[10:1], //10bit 
+                        instr_data[20],     //1bit  
+                        instr_data[31:21], //10bit 
                         1'b0              //1bit
                     };
                 end

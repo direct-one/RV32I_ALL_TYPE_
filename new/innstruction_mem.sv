@@ -10,6 +10,14 @@ module instruction_mem(
 
     initial begin
         $readmemh("riscv_rv32i_rom_data.mem", rom);
+    
+    
+    //rom[0]  = 32'h000010b7; //  LUI   x1, 1       (x1 = 0x00001000)
+    //rom[1]  = 32'h00001117; //  AUIPC x2, 1       (x2 = PC + 0x1000)
+    //rom[2]  = 32'h004001ef; //  JAL   x3, 4       (x3 = PC+4 store, PC+4 Jump)
+    //rom[3]  = 32'h00018267; //  JALR  x4, x3, 0   (x4 = PC+4 store, x3 Jump)
+
+        
 
     end
 
@@ -25,6 +33,12 @@ endmodule
         //rom[3] = 32'h002102a3; // SB x2  5(x2)
         //rom[4] = 32'h005102a3; // SB x5  5(x2)
         //rom[0] = 32'h00511123;  // SH x5 2(x2)
+
+        //rom[0]  = 32'h000010b7; //  LUI   x1, 1       (x1 = 0x00001000)
+    //rom[1]  = 32'h00001117; //  AUIPC x2, 1       (x2 = PC + 0x1000)
+    //rom[2]  = 32'h004001ef; //  JAL   x3, 4       (x3 = PC+4 store, PC+4 Jump)
+    //rom[3]  = 32'h00018267; //  JALR  x4, x3, 0   (x4 = PC+4 store, x3 Jump)
+
         
         //rom[3] = 32'h00211123;
         //rom[2] = 32'h00211123;
