@@ -14,7 +14,7 @@ module data_mem(
     
     
     //S-type 
-    logic [31:0] dmem[0:31];
+    logic [31:0] dmem[0:1023];
     logic [3:0] byte_we;
     logic [31:0] copy_data;
     logic [31:0] load_data;
@@ -52,20 +52,20 @@ module data_mem(
     // synchronize the data 
     always_ff @( posedge  clk ) begin  //store the data (write)
         
-            if(byte_we[0])dmem[daddr[6:2]][7:0]   <= copy_data[7:0];    
-            if(byte_we[1])dmem[daddr[6:2]][15:8]  <= copy_data[15:8];
-            if(byte_we[2])dmem[daddr[6:2]][23:16] <= copy_data[23:16];
-            if(byte_we[3])dmem[daddr[6:2]][31:24] <= copy_data[31:24]; 
+            if(byte_we[0])dmem[daddr[11:2]][7:0]   <= copy_data[7:0];    
+            if(byte_we[1])dmem[daddr[11:2]][15:8]  <= copy_data[15:8];
+            if(byte_we[2])dmem[daddr[11:2]][23:16] <= copy_data[23:16];
+            if(byte_we[3])dmem[daddr[11:2]][31:24] <= copy_data[31:24]; 
 
         
     end 
 
-    //I-type (+zero_extend)
+    //IL-type (+zero_extend)
     logic [7:0] byte_data;
     logic [15:0] half_data;
  
     always_comb begin  //Load the data(read)
-        load_data = dmem[daddr[6:2]];
+        load_data = dmem[daddr[11:2]];
         drdata = load_data;
 
         case (daddr[1:0])

@@ -171,7 +171,7 @@ module control_unit(
                 jal_srcsel  = 1'b1;
                 alu_src     = 1'b0;
                 alu_control = 4'b0000;    
-                rfwd_src    =3'b100; // mux 5x1 = in4
+                rfwd_src    = 3'b100; // mux 5x1 = in4
                 o_funct3    = 3'b000;
                 dwe         = 1'b0;
             end

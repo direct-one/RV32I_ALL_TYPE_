@@ -173,7 +173,7 @@ module imm_extender (
                         {12{instr_data[31]}},
                         instr_data[19:12], // 8bit     
                         instr_data[20],     //1bit  
-                        instr_data[31:21], //10bit 
+                        instr_data[30:21], //10bit 
                         1'b0              //1bit
                     };
                 end
@@ -198,7 +198,7 @@ module register_file (
     output [31:0] RD2       //Register File RS2 output 
 );
 
-    logic [31:0] reg_file [0:31];
+    logic [31:0] reg_file [1:31];
 
 `ifdef SIMULATION
     initial begin
@@ -211,7 +211,7 @@ module register_file (
 
 
     always_ff @( posedge clk) begin 
-            if(!rst & rf_we)begin
+            if(!rst & rf_we & (WA != 5'd0) )begin
                 reg_file[WA] <= Wdata;    
             
             end
