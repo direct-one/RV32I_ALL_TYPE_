@@ -200,14 +200,15 @@ module register_file (
 
     logic [31:0] reg_file [1:31];
 
-`ifdef SIMULATION
-    initial begin
-        for(int i =0; i<32; i++)begin
-            reg_file [i] = i;
-        end
-        
-    end
-`endif
+// for simulation( `define SIMULATION )
+//`ifdef SIMULATION
+//    initial begin
+//        for(int i =0; i<32; i++)begin
+//            reg_file [i] = i;
+//        end
+//        
+//    end
+//`endif
 
 
     always_ff @( posedge clk) begin 
