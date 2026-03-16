@@ -9,7 +9,7 @@ module instruction_mem(
     logic [31:0] rom[0:127];
 
     initial begin
-
+        
     // -------------------------------------------------------------------------
     // [1] I-Type ALU (imm calculate & alu & shift)
     
@@ -66,16 +66,22 @@ module instruction_mem(
     rom[35]  = 32'h00001117; // AUIPC x2, 1       (x2 = PC + 0x1000)
   
   // [6] J-Type (Jump)  
-    rom[36]  = 32'h004001ef; // JAL   x3, 4       (x3 =148  after store PC+4 , to jump 148)
-    rom[37]  = 32'h00418267; // JALR  x4, x3, 4   (x4 = 152 after store PC+4 , to jump x3  152)
 
-    //rom[38] = nothing order (xxxxx)    
-   
-       
-    
-    
+        rom[36] = 32'h00a00293;  // ADDI x5,x0,10 (144)
+        rom[37] = 32'h00c000ef;  // JAL x1, 12 (148 + 12 =160)
+        rom[38] = 32'h00128293;  // ADDI x5, x5, 1 (x5 == 11)
+        rom[39] = 32'h0000006f;  // JAL x0, 0(Infiinte loop) --> debuging 
+        rom[40] = 32'h01400313;  // ADDI x6, x0, 20 (160)
+        rom[41] = 32'h00008067;  // JALR x0, x1, 0 (Go back to 152)
 
-        
+
+    ////rom[38] = nothing order (xxxxx)    
+    //
+    //
+    ////rom[36]  = 32'h004001ef; // JAL   x3, 4       (x3 =148  after store PC+4 , to jump 148)
+    ////rom[37]  = 32'h00418267; // JALR  x4, x3, 4   (x4 = 152 after store PC+4 , to jump x3  152)
+//
+    //    
 
     end
 
@@ -134,58 +140,41 @@ endmodule
 
 
 
-//    // -------------------------------------------------------------------------
-//    // [1] I-Type ALU (imm calculate 및 alu & shift)
-//    
-//    rom[0]  = 32'hfff00293; // 5. ADDI  x5, x0, -1  (x5 = 0xFFFFFFFF, --> -1)
-//    rom[1]  = 32'h0002a313; // 6. SLTI  x6, x5, 0   (x6 = 1, -1<0 --> True )
-//    rom[2]  = 32'h0002b393; // 7. SLTIU x7, x5, 0   (x7 = 0, Unsigned 0xFFFF--> bigger than '0')
-//    rom[3]  = 32'h00f2c413; // 8. XORI  x8, x5, 15  (x8 = 0xFFFFFFF0)
-//    rom[4]  = 32'h00f46493; // 9. ORI   x9, x8, 15  (x9 = 0xFFFFFFFF)
-//    rom[5]  = 32'h0034f513; // 10. ANDI x10, x9, 3  (x10 = 3)
-//    rom[6] = 32'h00251593; // 11. SLLI x11, x10, 2 (x11 = 12, shift left 2 side)
-//    rom[7] = 32'h0012d613; // 12. SRLI x12, x5, 1  (x12 = 0x7FFFFFFF, zero-extend)
-//    rom[8] = 32'h4012d693; // 13. SRAI x13, x5, 1  (x13 = 0xFFFFFFFF, msb_extend )
-//
-//    // -------------------------------------------------------------------------
-//    // [2] R-Type ALU (register_cal)
-//   
-//    rom[9] = 32'h00533733; // 14. SLTU x14, x6, x5 (x14 = 1, Unsigned 1 < 0xFFFFFFFF)
-//    rom[10] = 32'h005347b3; // 15. XOR  x15, x6, x5 (x15 = 0xFFFFFFFE)
-//    rom[11] = 32'h00a2d833; // 16. SRL  x16, x5, x10(x16 = 0x1FFFFFFF, shift right like x10(3))
-//    rom[12] = 32'h40a2d8b3; // 17. SRA  x17, x5, x10(x17 = 0xFFFFFFFF, keep state(-,+) )
-//    rom[13] = 32'h0062e933; // 18. OR   x18, x5, x6 (x18 = 0xFFFFFFFF)
-//    rom[14] = 32'h0062f9b3; // 19. AND  x19, x5, x6 (x19 = 1)
-//
-//   // -------------------------------------------------------------------------
-//    // [3] Memory (Load / Store) - store certain byte & extend test
-//   
-//    rom[15] = 32'h06400a13; // ( setting Memory base address) ADDI x20, x0, 100
-//    rom[16] = 32'h005a2023; // 20. SW   x5, 0(x20)  (dmem[100] = 0xFFFFFFFF)
-//    rom[17] = 32'h006a1223; // 21. SH   x6, 4(x20)  (dmem[104] = 0x0001)
-//    rom[18] = 32'h00aa0323; // 22. SB   x10, 6(x20) (dmem[106] = 0x03)
-//    rom[19] = 32'h000a2a83; // 23. LW   x21, 0(x20) (x21 = 0xFFFFFFFF)
-//    rom[20] = 32'h004a1b03; // 24. LH   x22, 4(x20) (x22 = 1)
-//    rom[21] = 32'h006a0b83; // 25. LB   x23, 6(x20) (x23 = 3)
-//    rom[22] = 32'h004a5c03; // 26. LHU  x24, 4(x20) (x24 = 1, zero Extended)
-//    rom[23] = 32'h006a4c83; // 27. LBU  x25, 6(x20) (x25 = 3, zero Extended)
-//
-//    // -------------------------------------------------------------------------
-//    // [4] B-Type (Cycle) -  to jump +4 --> all Ture 
-//    
-//    rom[24] = 32'h00630263; // 28. BEQ  x6, x6, 4   (1 == 1, True -> next_line)
-//    rom[25] = 32'h00531263; // 29. BNE  x6, x5, 4   (1 != -1, True -> next_line)
-//    rom[26] = 32'h0062c263; // 30. BLT  x5, x6, 4   (-1 < 1, True -> next_line)
-//    rom[27] = 32'h00535263; // 31. BGE  x6, x5, 4   (1 >= -1, True -> next_line)
-//    rom[28] = 32'h00536263; // 32. BLTU x6, x5, 4   (1 < 0xFFFF.., True -> next_line)
-//    rom[29] = 32'h0062f263; // 33. BGEU x5, x6, 4   (0xFFFF.. >= 1, True -> next_line)
-//
-//  // [5] U-Type , J-Type (address & Jump )
-//    
-//    rom[30]  = 32'h000010b7; // 1. LUI   x1, 1       (x1 = 0x00001000)
-//    rom[31]  = 32'h00001117; // 2. AUIPC x2, 1       (x2 = PC + 0x1000)
-//    rom[32]  = 32'h004001ef; // 3. JAL   x3, 4       (x3 = after store PC+4 , to jump PC+4 )
-//    rom[33]  = 32'h00018267; // 4. JALR  x4, x3, 0   (x4 = after store PC+4 , to jump x3)
 
-   
-        
+
+
+
+
+
+
+    //S-type full case
+    //rom[1] = 32'h006a1223; // SH   x6, 4(x20)  (dmem[104] = 0x0001)
+    //rom[2] = 32'h005a1323; // SH   x4, 6(x20)  (dmem[104] = 0x0001)
+
+    //rom[1] = 32'h005a2023; // SW   x5, 0(x20)  (dmem[100] = 0xFFFFFFFF)
+    //rom[2] = 32'h006a2023; // SW   x5, 0(x20)  (dmem[100] = 0xFFFFFFFF)
+
+    //rom[1] = 32'h00aa0223; // SB   x10, 4(x20) (dmem[106] = 0x03)
+    //rom[2] = 32'h00aa02a3; // SB   x10, 5(x20) (dmem[106] = 0x03)
+    //rom[3] = 32'h00aa0323; // SB   x10, 6(x20) (dmem[106] = 0x03)
+    //rom[4] = 32'h00aa03a3; // SB   x10, 7(x20) (dmem[106] = 0x03)
+
+    //L-type full case 
+    //rom[2] = 32'h000a2a83; // LW   x21, 0(x20)
+
+    //rom[2] = 32'h000a1b03; // LH   x22, 0(x20) 
+
+    //rom[1] = 32'h006a1023; // SH   x6, 0(x20)    
+    //rom[2] = 32'h000a0b83; // LB   x23, 0(x20) (x23 = 3)
+    
+    //rom[1] = 32'h00aa0223; // SB   x10, 4(x20)
+    //rom[2] = 32'h00aa02a3; // SB   x10, 5(x20)
+    //rom[3] = 32'h004a5c03; // LHU  x24, 4(x20) (x24 = 10, zero Extended)
+
+    //rom[1] = 32'h00aa0223; // SB   x10, 4(x20)
+    //rom[2] = 32'h004a4c83; // LBU  x25, 4(x20) (x25 = 10, zero Extended)
+
+    //rom[0] = 32'h06400a13; // ( setting Memory base address) ADDI x20, x0, 100
+    //rom[1] = 32'h006a1223; // SH   x6, 4(x20)  
+    //rom[2] = 32'h004a2a83; // LW   x21, 4(x20)
+    
