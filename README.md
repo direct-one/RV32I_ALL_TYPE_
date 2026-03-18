@@ -60,6 +60,7 @@
 : Byte-addressable storage structure — Used for S-Type and I-Type (Load).
 
 - S-Type
+
     : funct3 == 101(SW)
     - 32bit store
     
