@@ -2,62 +2,62 @@
 
 ## Instuction_memory
 
-:Senario를 구성하고 실행하는 메모리 or 실행할 프로그램의 명령어들이 저장되는 공간 
+: Memory that composes and executes scenarios, or a storage space where instructions of the program to be executed are stored. 
 
-1. rom[]코드를 사용하여 , 시나리오 작성
+1. Operate through ASM (Assembly Code) via Memory_file.
 
 <img width="571" height="378" alt="image 1" src="https://github.com/user-attachments/assets/6d5ab2ff-8cb5-484b-94d7-017dbaecbc80" />
 
 
-1. Memory_file를 통한 ASM (Asembly Code)를 통해 동작
+1.Implementation using a Memory_file to execute Assembly Code logic.
 
 <img width="852" height="345" alt="image 2" src="https://github.com/user-attachments/assets/bf2a75bd-cd99-480a-9c0c-8f4a4737157b" />
 
 
 ## RV32I_cpu
 
-－ control_unit과 datapath로 구성하고 있는 형태
+－ A structure composed of a Control Unit and a Datapath.
 
 - Control_unit 
-- 각 Type에서 신호를 정의하는 역할
+- Responsible for defining control signals for each instruction Type.
 
 <img width="317" height="602" alt="image 3" src="https://github.com/user-attachments/assets/bf9773bd-e441-41cb-8d40-a15af42ea704" />
 
 
 1.  DataPath 
-- Control_unit의 신호가 input으로 들어와 신호에 다른 동작을 실행 
+- Receives signals from the Control Unit as inputs and executes specific operations based on those signals.
 
 ## RV32I_Datapath
 
-— Register_file & PC(Program Counter) & Imm extender & ALU로 구성
+— Composed of the Register File, PC (Program Counter), Imm Extender, and ALU.
 
 - Register_file 
 - input : RA1, RA2, RD, WD(wirte data), Wdata, rf_we(register file wirte enable) 
 - output: RD1, RD2
-- rf_we와 WA의 신호값을통해 값을 저장
+- Saves values based on rf_we and WA (Write Address) signals.
 Condition:  (!rst & rf_we & WA ≠ 5’d0)
 
-- ALU: 자동으로 연산을 해주는 모듈 
--  R, B-Type의 연산을 alu_control의 신호를 통해 확인 후 각 지정된 명령어를 수행 
+- ALU: A module that performs operations automatically. 
+-  Executes designated instructions for R-Type and B-Type by checking the 
 - R-Type
-: ADD, SUB,SLL,SLT등 
+: ADD, SUB,SLL,SLT, etc 
 - B-Type
-:BEQ, BNE, BLT등
+:BEQ, BNE, BLT, etc
 
 - PC(Program Counter)
-: 현재의 주소를 나타내며, 동시에 B-Type이나 J-Type의 Jump를 사용하기 위해 사용
+: Indicates the current instruction address and handles target addresses for B-Type or J-Type jumps.
 
-- Pc+4를 위한 alu
-- PC의 값이 잠깐 저장을 할 수 있는 Register
-- rd1과 PC의 값을 선택하기 위한 mux_2x1
-- pc+4의 값과, mux(pc, imm)를 선택하는 mux_2x1
+- Includes an adder for PC+4 calculations.
+- Includes a Register to temporarily store the PC value.
+- Uses a 2x1 Mux to select between rd1 and PC values.
+- Uses a 2x1 Mux to select between the PC+4 value and the jump/branch target.
 
 - Imm extender
-: 상수값(Immidiate)을 사용하는 Type을 위해 사용되어진다. (I , B, U, J)
+: Used to handle constant values (Immediates) for specific instruction types (I, B, U, J).
 
 ## Data_Memory
 
-: Byte Store 구조 —> S-type과 IL-Type에 사용
+: Byte-addressable storage structure — Used for S-Type and I-Type (Load).
 
 - S-Type
 : funct3 == 101(SW)
@@ -86,14 +86,14 @@ Condition:  (!rst & rf_we & WA ≠ 5’d0)
 
 ## Define(Verilog Header)
 
-각 Type의 Opcode를 정의 R-Type Instruction, B-Type Instruction 정의
+Defines Opcodes, R-Type instructions, and B-Type instructions for each instruction format.
 
 <img width="543" height="489" alt="image 4" src="https://github.com/user-attachments/assets/3becb2b5-1482-40ca-a7ec-c9ea110418df" />
 
 
 ## Memory_File
 
-: i의 반복문을 이용하여, sum의 값을 출력하는 C code를 제작 후 ASM code변경 후 사용
+: A C-code program using an i loop to output a sum value, converted into ASM (Assembly) code for execution.
 
 <img width="543" height="489" alt="image 4" src="https://github.com/user-attachments/assets/570b931f-a5eb-4712-bc44-72e7609a8b1b" />
 
