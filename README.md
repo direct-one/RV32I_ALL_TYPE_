@@ -1,14 +1,18 @@
+# RV32I -TYPE
+
 ## Instuction_memory
 
 :Senario를 구성하고 실행하는 메모리 or 실행할 프로그램의 명령어들이 저장되는 공간 
 
 1. rom[]코드를 사용하여 , 시나리오 작성
 
-![image.png](attachment:b77b71f3-4bdc-449a-a0ec-ac93a9c3f693:image.png)
+<img width="571" height="378" alt="image 1" src="https://github.com/user-attachments/assets/6d5ab2ff-8cb5-484b-94d7-017dbaecbc80" />
+
 
 1. Memory_file를 통한 ASM (Asembly Code)를 통해 동작
 
-![image.png](attachment:2e26b189-68ac-4154-829c-0bc42045ff43:image.png)
+<img width="852" height="345" alt="image 2" src="https://github.com/user-attachments/assets/bf2a75bd-cd99-480a-9c0c-8f4a4737157b" />
+
 
 ## RV32I_cpu
 
@@ -17,7 +21,8 @@
 - Control_unit 
 - 각 Type에서 신호를 정의하는 역할
 
-![image.png](attachment:f29d8980-1bbe-408c-98c6-fbb09b5bfd03:image.png)
+<img width="317" height="602" alt="image 3" src="https://github.com/user-attachments/assets/bf9773bd-e441-41cb-8d40-a15af42ea704" />
+
 
 1.  DataPath 
 - Control_unit의 신호가 input으로 들어와 신호에 다른 동작을 실행 
@@ -83,10 +88,12 @@ Condition:  (!rst & rf_we & WA ≠ 5’d0)
 
 각 Type의 Opcode를 정의 R-Type Instruction, B-Type Instruction 정의
 
-![image.png](attachment:bef26170-ac50-4c63-b9a0-0d1671506413:image.png)
+<img width="543" height="489" alt="image 4" src="https://github.com/user-attachments/assets/3becb2b5-1482-40ca-a7ec-c9ea110418df" />
+
 
 ## Memory_File
 
 : i의 반복문을 이용하여, sum의 값을 출력하는 C code를 제작 후 ASM code변경 후 사용
 
-![image.png](attachment:7f387be9-163f-4089-8f78-35747993283a:image.png)
+<img width="543" height="489" alt="image 4" src="https://github.com/user-attachments/assets/570b931f-a5eb-4712-bc44-72e7609a8b1b" />
+
