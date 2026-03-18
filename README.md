@@ -32,25 +32,25 @@
 — Composed of the Register File, PC (Program Counter), Imm Extender, and ALU.
 
 - Register_file 
-- input : RA1, RA2, RD, WD(wirte data), Wdata, rf_we(register file wirte enable) 
-- output: RD1, RD2
-- Saves values based on rf_we and WA (Write Address) signals.
-Condition:  (!rst & rf_we & WA ≠ 5’d0)
+    - input : RA1, RA2, RD, WD(wirte data), Wdata, rf_we(register file wirte enable) 
+    - output: RD1, RD2
+    - Saves values based on rf_we and WA (Write Address) signals.
+    Condition:  (!rst & rf_we & WA ≠ 5’d0)
 
 - ALU: A module that performs operations automatically. 
--  Executes designated instructions for R-Type and B-Type by checking the 
-- R-Type
-: ADD, SUB,SLL,SLT, etc 
-- B-Type
-:BEQ, BNE, BLT, etc
+    -  Executes designated instructions for R-Type and B-Type by checking the 
+    - R-Type
+    : ADD, SUB,SLL,SLT, etc 
+    - B-Type
+    :BEQ, BNE, BLT, etc
 
 - PC(Program Counter)
 : Indicates the current instruction address and handles target addresses for B-Type or J-Type jumps.
 
-- Includes an adder for PC+4 calculations.
-- Includes a Register to temporarily store the PC value.
-- Uses a 2x1 Mux to select between rd1 and PC values.
-- Uses a 2x1 Mux to select between the PC+4 value and the jump/branch target.
+    - Includes an adder for PC+4 calculations.
+    - Includes a Register to temporarily store the PC value.
+    -  Uses a 2x1 Mux to select between rd1 and PC values.
+    - Uses a 2x1 Mux to select between the PC+4 value and the jump/branch target.
 
 - Imm extender
 : Used to handle constant values (Immediates) for specific instruction types (I, B, U, J).
@@ -60,8 +60,8 @@ Condition:  (!rst & rf_we & WA ≠ 5’d0)
 : Byte-addressable storage structure — Used for S-Type and I-Type (Load).
 
 - S-Type
-: funct3 == 101(SW)
-- 32bit store
+    : funct3 == 101(SW)
+    - 32bit store
     
     : funct3 == 001(SH)
     - 16bit store
