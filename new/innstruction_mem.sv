@@ -53,12 +53,12 @@ module instruction_mem(
     // -------------------------------------------------------------------------
     // [4] B-Type (Branch) -  to jump -->  all True 
     
-    rom[28] = 32'h00630263; // 28. BEQ  x6, x6, 4   (1 == 1, True -> next_line)
-    rom[29] = 32'h00531263; // 29. BNE  x6, x5, 4   (1 != -1, True -> next_line)
-    rom[30] = 32'h0062c263; // 30. BLT  x5, x6, 4   (-1 < 1, True -> next_line)
-    rom[31] = 32'h00535263; // 31. BGE  x6, x5, 4   (1 >= -1, True -> next_line)
-    rom[32] = 32'h00536263; // 32. BLTU x6, x5, 4   (1 < 0xFFFF.., True -> next_line)
-    rom[33] = 32'h0062f263; // 33. BGEU x5, x6, 4   (0xFFFF.. >= 1, True -> next_line)
+    rom[28] = 32'h00630463; // 28. BEQ  x6, x6, 8   (1 == 1, True -> imm 8 jump)
+    rom[29] = 32'h00531863; // 29. BNE  x6, x5, 16   (1 != 1, True -> imm 16 jump)
+    rom[30] = 32'h00634463; // 30. BLT  x6, x6, 8   (1 < 1, false -> Keep PC+4, no jump)
+    rom[31] = 32'h0062d463; // 31. BGE  x5, x6, 8   (1 >= -1, false -> Keep PC+4, no jump)
+    rom[32] = 32'hfe536ae3; // 32. BLTU x6, x5, -12 (1 < 0xFFFF.., True -> imm -4 jump)
+    rom[33] = 32'h01b37463; // 33. BGEU x6, x27, 8   (0xFFFF.. >= 8, false -> Keep PC+4, no jump)
 
   // [5] U-Type (address)
     
@@ -74,15 +74,6 @@ module instruction_mem(
         rom[40] = 32'h01400313;  // ADDI x6, x0, 20 (160)
         rom[41] = 32'h00008067;  // JALR x0, x1, 0 (Go back to 152)
 
-
-    ////rom[38] = nothing order (xxxxx)    
-    //
-    //
-    ////rom[36]  = 32'h004001ef; // JAL   x3, 4       (x3 =148  after store PC+4 , to jump 148)
-    ////rom[37]  = 32'h00418267; // JALR  x4, x3, 4   (x4 = 152 after store PC+4 , to jump x3  152)
-//
-    //    
-
     end
 
     assign instr_data = rom[instr_addr[31:2]]; // delete '0', '1'
@@ -90,8 +81,8 @@ module instruction_mem(
 endmodule
 
 
-
         //$readmemh("riscv_rv32i_rom_data_sum.mem", rom);
+
         //rom[0]  = 32'h000010b7; //  LUI   x1, 1       (x1 = 0x00001000)
         //rom[1]  = 32'h00001117; //  AUIPC x2, 1       (x2 = PC + 0x1000)
         //rom[2]  = 32'h004001ef; //  JAL   x3, 4       (x3 = PC+4 store, PC+4 Jump)
@@ -177,4 +168,17 @@ endmodule
     //rom[0] = 32'h06400a13; // ( setting Memory base address) ADDI x20, x0, 100
     //rom[1] = 32'h006a1223; // SH   x6, 4(x20)  
     //rom[2] = 32'h004a2a83; // LW   x21, 4(x20)
+
+
+
+
+//
+//
+    //////rom[38] = nothing order (xxxxx)    
+    ////
+    ////
+    //////rom[36]  = 32'h004001ef; // JAL   x3, 4       (x3 =148  after store PC+4 , to jump 148)
+    //////rom[37]  = 32'h00418267; // JALR  x4, x3, 4   (x4 = 152 after store PC+4 , to jump x3  152)
+////
+    ////    
     
